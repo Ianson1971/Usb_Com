@@ -1,0 +1,23 @@
+'''
+1. установить модули pyserial и pyinstaller, не только в среду PyCharm, а и в консоль
+
+2. pip install "pyinstaller>=5.12"     - до этой версии был баг
+вызов pyinstaller -F -i C:\py\prj1\Usb_Com\src\python.ico C:\py\prj1\Usb_Com\src\main.py - для консольных приложений
+вызов pyinstaller -F -w -i pyinstaller -F -i C:\py\prj1\Usb_Com\src\python.ico C:\py\prj1\Usb_Com\src\main.py - для оконных приложений, например Tk   -w скрывает консоль при использовании окна
+
+3. pip install auto-py-to-exe - оконное приложение - использует pyinstaller
+вызов auto-py-to-exe
+'''
+
+How to change python version for use with pyinstaller
+python3.9 -m PyInstaller [whatever options you want]
+python3.9 -m pyinstaller - будет ошибка - буквы заглавные
+
+py --list  - список python-ов
+
+для Win - просто вверх переменные среды
+sysdm.cpl
+
+для linux
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 2
