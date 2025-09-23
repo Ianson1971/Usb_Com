@@ -14,6 +14,7 @@ v1.0.4  -   добавил исключений для COM порта
 
 '''
 import serial
+import serial.tools.list_ports
 import time
 import datetime
 from datetime import datetime
@@ -24,10 +25,15 @@ import sys
 
 
 
-VERSION_MY_PO = 'v.1.0.4  02-10-2023'                                           # версия программы
+VERSION_MY_PO = 'v.1.0.5  06-03-2025'                                           # версия программы
 
 TIME_WRITE_FILE = 10                                                            # время в минутах - сколько писать в один файл
 VOLUME_FILE = 200*60*TIME_WRITE_FILE                                            # количество записей для одного файла
+
+#количество байт принимаемых в строку - слов в одной посылке
+#PROCESSOR = 'GD32'
+PROCESSOR = 'TM4C'
+
 
 NUMERIC_STRING = "1234567890"                                                   # проверка на числа
 
@@ -136,7 +142,16 @@ def on_exit():
 
 
 
-print('Версия ПО ' + VERSION_MY_PO)
+print('Версия ПО \t' + VERSION_MY_PO)
+if PROCESSOR == 'TM4C':
+    NUMBER_READ_DATA_ =  7                                                          # для TM4C
+elif PROCESSOR == 'GD32':
+    NUMBER_READ_DATA_ = 24                                                          # для GD32
+else :
+    PROCESSOR == 'не выбран'
+    NUMBER_READ_DATA_ = 24
+
+print(f'Процессор: {PROCESSOR}\t, длина строки:  {NUMBER_READ_DATA_} слов')
 print('Текущее время --> ' + time.strftime("%H:%M:%S  %d-%m-%Y", time.localtime()))
 
 
@@ -229,7 +244,7 @@ try:
 #                        print('You Pressed A Key q!')                               # получается выйдем только после приёма строки
 #                        exit()
                     if (counter_lf < VOLUME_FILE):
-                        line = SerPort.read(48).hex()                                                                   #чтение в Hex формате
+                        line = SerPort.read(NUMBER_READ_DATA_*2).hex()                                                  #чтение в Hex формате
                         if line:
                             pred_str = pre_str_time()
                             if(len(pred_str) < 23):                                                                     #выровняем строку время, если она сокращена или неправильно считана - баг библиотеки
