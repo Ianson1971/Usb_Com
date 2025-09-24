@@ -8,6 +8,10 @@
 3. pip install auto-py-to-exe - оконное приложение - использует pyinstaller
 вызов auto-py-to-exe
 '''
+python -m pip install pyinstaller --upgrade
+python -m pip install auto-py-to-exe --upgrade
+
+
 
 How to change python version for use with pyinstaller
 python3.9 -m PyInstaller [whatever options you want]
