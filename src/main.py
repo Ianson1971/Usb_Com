@@ -11,6 +11,8 @@ v1.0.2  -   выход по нажатию горячей клавиши - на�
 
 v1.0.3  -   если время меньше символов - то дополняем его до
 v1.0.4  -   добавил исключений для COM порта
+v1.0.5  -   добавил TM4C - 7 слов
+v1.0.6  -   добавил GD32 - 25 слов
 
 '''
 import serial
@@ -22,17 +24,30 @@ import os
 import keyboard                                                                 # проверить нажата ли кнопка
 #import select
 import sys
+from dataclasses import dataclass
 
 
 
-VERSION_MY_PO = 'v.1.0.5  06-03-2025'                                           # версия программы
+VERSION_MY_PO = 'v.1.0.6  04.12.25'                                             # версия программы
 
 TIME_WRITE_FILE = 10                                                            # время в минутах - сколько писать в один файл
 VOLUME_FILE = 200*60*TIME_WRITE_FILE                                            # количество записей для одного файла
 
 #количество байт принимаемых в строку - слов в одной посылке
 #PROCESSOR = 'GD32'
-PROCESSOR = 'TM4C'
+#PROCESSOR = 'TM4C'
+
+
+@dataclass
+class PROCESSOR:
+    TM4C: int = 7
+    GD32_24: int = 24
+    GD32_25: int = 25
+
+objProcessor = PROCESSOR()
+NUMBER_READ_DATA_ = objProcessor.GD32_25                                        # выбрали размер строки для приема
+PROCESSOR_ = 'GD32_25'
+
 
 
 NUMERIC_STRING = "1234567890"                                                   # проверка на числа
@@ -142,16 +157,16 @@ def on_exit():
 
 
 
-print('Версия ПО \t' + VERSION_MY_PO)
-if PROCESSOR == 'TM4C':
-    NUMBER_READ_DATA_ =  7                                                          # для TM4C
-elif PROCESSOR == 'GD32':
-    NUMBER_READ_DATA_ = 24                                                          # для GD32
-else :
-    PROCESSOR == 'не выбран'
-    NUMBER_READ_DATA_ = 24
+# print('Версия ПО \t' + VERSION_MY_PO)
+# if PROCESSOR == 'TM4C':
+    # NUMBER_READ_DATA_ =  7                                                          # для TM4C
+# elif PROCESSOR == 'GD32':
+    # NUMBER_READ_DATA_ = 24                                                          # для GD32
+# else :
+    # PROCESSOR == 'не выбран'
+    # NUMBER_READ_DATA_ = 24
 
-print(f'Процессор: {PROCESSOR}\t, длина строки:  {NUMBER_READ_DATA_} слов')
+print(f'Процессор: {PROCESSOR_}\t, длина строки:  {NUMBER_READ_DATA_} слов')
 print('Текущее время --> ' + time.strftime("%H:%M:%S  %d-%m-%Y", time.localtime()))
 
 
